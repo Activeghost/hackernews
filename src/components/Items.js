@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './../App.css';
-import * as ReactDOM from "react-dom";
+import NewsItem from "./NewsItem";
+import ErrorBoundary from "./ErrorBoundary";
 
 const list = [
     {
@@ -9,7 +10,7 @@ const list = [
         author: "Jordan Walke",
         num_comments: 5,
         points: 4,
-        objectID: 0
+        objectId: 0
     },
     {
         title: "Redux",
@@ -17,7 +18,7 @@ const list = [
         author: "Dan Abramov, Andrew Clark",
         num_comments: 2,
         points: 5,
-        objectID: 1
+        objectId: 1
     }
 ];
 
@@ -28,26 +29,22 @@ export default class Items extends Component {
         this.state = {
             list: list
         };
+
     }
+
+    onDismiss = (id) => {
+        const isNotId = function isNotId(item) {
+            return item.objectId !== id;
+        };
+
+        const updatedList = this.state.list.filter(isNotId);
+
+        this.setState({ list: updatedList});
+    };
+
+    renderNewsItem = item => <NewsItem key={item.objectId} item={item} onClick={this.onDismiss}/>;
 
     render() {
-        let element = <div>
-            {
-                list.map(item =>
-                    <div key={item.objectID}>
-                                <span>
-                                    <a href={item.url}>{item.title}</a>
-                                </span>
-                        <span>{item.author}</span>
-                        <span>{item.num_comments}</span>
-                        <span>{item.points}</span>
-                    </div>
-                )
-            }
-        </div>;
-
-        return element;
+        return <div><ErrorBoundary>{this.state.list.map(this.renderNewsItem)}</ErrorBoundary></div>;
     }
 }
-
-ReactDOM.render(<Items/>, document.getElementById("root"));
