@@ -7,8 +7,7 @@ class NewsItem extends Component {
     onDismiss = () => this.props.onClick(this.props.item.objectId);
 
     render() {
-        return <div>
-            {
+        return (
                 <div key={this.props.item.objectId}>
                                 <span>
                                     <a href={this.props.item.url}>{this.props.item.title}</a>
@@ -24,8 +23,7 @@ class NewsItem extends Component {
                             </button>
                         </span>
                 </div>
-            }
-        </div>;
+        );
     }
 }
 

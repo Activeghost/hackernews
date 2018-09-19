@@ -27,9 +27,14 @@ export default class Items extends Component {
         super (props);
 
         this.state = {
-            list: list
+            list: list,
+            searchTerm: ''
         };
 
+    }
+
+    onSearchChange = (event) => {
+        this.setState({ searchTerm: event.target.value });
     }
 
     onDismiss = (id) => {
@@ -45,6 +50,26 @@ export default class Items extends Component {
     renderNewsItem = item => <NewsItem key={item.objectId} item={item} onClick={this.onDismiss}/>;
 
     render() {
-        return <div><ErrorBoundary>{this.state.list.map(this.renderNewsItem)}</ErrorBoundary></div>;
+        const {searchTerm, list} = this.state;
+
+        return (
+        <div>
+            <form>
+                <input type="text" value={searchTerm} onChange={this.onSearchChange}/>
+            </form>
+            <ErrorBoundary>
+                {
+                    list
+                        .filter(match(this.state.searchTerm))
+                        .map(this.renderNewsItem)
+                }
+            </ErrorBoundary>
+        </div>
+        );
     }
 }
+
+const match = searchTerm => item =>
+    item.title
+        .toLocaleLowerCase()
+        .includes(searchTerm.toLocaleLowerCase());
