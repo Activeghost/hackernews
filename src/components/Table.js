@@ -3,28 +3,20 @@ import './../App.css';
 import NewsItem from "./NewsItem";
 import ErrorBoundary from "./ErrorBoundary";
 
-export default class Table extends Component {
+export default const Table = (list, pattern, onDismiss) => {
+    const renderNewsItem = item => <NewsItem key={item.objectId} item={item} onClick={onDismiss}/>;
+    const match = searchTerm => item =>
+        item.title
+            .toLocaleLowerCase()
+            .includes(searchTerm.toLocaleLowerCase());
 
-    renderNewsItem = item => <NewsItem key={item.objectId} item={item} onClick={this.props.onDismiss}/>;
-
-    render() {
-        const {list, pattern} = this.props;
-
-        return (
+    return (
         <div>
             <ErrorBoundary>
-                {
-                    list
-                        .filter(match(pattern))
-                        .map(this.renderNewsItem)
+                list
+                .filter(match(pattern))
+                .map(renderNewsItem)
                 }
             </ErrorBoundary>
-        </div>
-        );
-    }
-}
-
-const match = searchTerm => item =>
-    item.title
-        .toLocaleLowerCase()
-        .includes(searchTerm.toLocaleLowerCase());
+        </div>);
+};

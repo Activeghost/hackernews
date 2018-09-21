@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import TimerComponent from './TimerComponent';
 import FrontPage from "./FrontPage";
-import Table from "./Table";
-import Search from './Search'
 
 import '../App.css';
+import Table from "./Table";
 
 const list = [
     {
@@ -63,3 +62,9 @@ export default class App extends Component {
         );
     }
 }
+
+
+const Search = ({value, onChange, children}) =>
+    <form>
+        {children}<input type="text" value={value} onChange={onChange}/>
+    </form>;
