@@ -1,7 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
+import {render, shallow} from 'enzyme';
 import NewsItem from './../NewsItem';
 
 const list = [
@@ -24,12 +23,12 @@ const list = [
 ];
     test('Renders expected snapshots', () => {
         const newsItem = list[0];
-        const result = renderer.create(
+        const result = render(
             <NewsItem key={newsItem.objectId} item={newsItem} onClick={() => {
-            }}/>
+            }}/>, { name: 'foo' }
         );
 
-        let tree = result.toJSON();
+        let tree = result.html();
         expect(tree).toMatchSnapshot();
     });
 

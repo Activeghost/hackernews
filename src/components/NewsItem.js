@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './../App.css';
 import PropTypes from "prop-types";
+import Button from "./Button";
 
 
 class NewsItem extends Component {
@@ -16,11 +17,12 @@ class NewsItem extends Component {
                     <span>{this.props.item.num_comments}</span>
                     <span>{this.props.item.points}</span>
                     <span>
-                            <button
-                                onClick={this.onDismiss}
-                                type="button">
+                        <Button
+                            className=""
+                            onClick={this.onDismiss}
+                            type="button">
                                 Dismiss
-                            </button>
+                        </Button>
                         </span>
                 </div>
         );

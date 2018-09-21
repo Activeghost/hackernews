@@ -1,10 +1,9 @@
 import React from 'react';
-import renderer from "react-test-renderer";
-import App from '../../App';
+import App from '../App';
+import {render} from "enzyme";
 
 test('Renders expected snapshots', () => {
-    const result = renderer.create(<App/>);
-
-    let tree = result.toJSON();
+   const component = render(<App/>);
+   const tree = component.html();
     expect(tree).toMatchSnapshot();
 });

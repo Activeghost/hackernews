@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import './../App.css';
-import NewsItem from "./NewsItem";
-import ErrorBoundary from "./ErrorBoundary";
+import TimerComponent from './TimerComponent';
+import FrontPage from "./FrontPage";
+import Table from "./Table";
+import Search from './Search'
+
+import '../App.css';
 
 const list = [
     {
@@ -22,19 +25,14 @@ const list = [
     }
 ];
 
-export default class Items extends Component {
+export default class App extends Component {
     constructor(props) {
-        super (props);
+        super(props);
 
         this.state = {
             list: list,
             searchTerm: ''
         };
-
-    }
-
-    onSearchChange = (event) => {
-        this.setState({ searchTerm: event.target.value });
     }
 
     onDismiss = (id) => {
@@ -47,29 +45,21 @@ export default class Items extends Component {
         this.setState({ list: updatedList});
     };
 
-    renderNewsItem = item => <NewsItem key={item.objectId} item={item} onClick={this.onDismiss}/>;
+    onSearchChange = (event) => {
+        this.setState({ searchTerm: event.target.value });
+    };
 
     render() {
         const {searchTerm, list} = this.state;
-
         return (
-        <div>
-            <form>
-                <input type="text" value={searchTerm} onChange={this.onSearchChange}/>
-            </form>
-            <ErrorBoundary>
-                {
-                    list
-                        .filter(match(this.state.searchTerm))
-                        .map(this.renderNewsItem)
-                }
-            </ErrorBoundary>
-        </div>
+            <div>
+                <FrontPage/>
+                <TimerComponent/>
+                <Search value={searchTerm} onChange={this.onSearchChange}>Search: </Search>
+                <Table list={list}
+                       pattern={searchTerm}
+                       onDismiss={this.onDismiss}/>
+            </div>
         );
     }
 }
-
-const match = searchTerm => item =>
-    item.title
-        .toLocaleLowerCase()
-        .includes(searchTerm.toLocaleLowerCase());
